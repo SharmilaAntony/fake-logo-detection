@@ -56,7 +56,7 @@ Enable real-time webcam detection
 Deploy as a web application
 Add confidence score for predictions
 
-
 👩‍💻 Author
+
 Sharmila Antony
 AI & Machine Learning Enthusiast

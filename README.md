@@ -38,7 +38,7 @@ The system captures real-time camera input and classifies logos as Genuine or Fa
 
 🔴 Fake Logo Output
 
-📷 Fake Logo Detection Result
+📷 Fake Logo Detection Result (fake_output.png)
 
 
 ⚙️ How to Run Project

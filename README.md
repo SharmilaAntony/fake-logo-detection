@@ -25,7 +25,7 @@ Due to large file size, the dataset is not included in this repository.
 
 
 👉 Download dataset here:
-https://your-google-drive-link-here
+https://drive.google.com/file/d/1Veovpp_dLZ9gE5U7CPt7BLIFyeNqLcWZ/view?usp=sharing
 
 
 📸 Project Output (Camera Feed Results)
@@ -34,7 +34,7 @@ The system captures real-time camera input and classifies logos as Genuine or Fa
 
 🟢 Genuine Logo Output
 
-📷 Genuine Logo Detection Result
+📷 Genuine Logo Detection Result  
 
 🔴 Fake Logo Output
 

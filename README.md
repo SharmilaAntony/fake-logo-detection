@@ -50,11 +50,11 @@ cd fake-logo-detection
 * Install dependencies
 pip install -r requirements.txt
 
-* Train the model (only once!)
-python train_model.py
+* Train the model 
+train_model.py
 
 * Run the detection
-python open_cv.py
+open_cv.py
 
 📊 Model Output
 

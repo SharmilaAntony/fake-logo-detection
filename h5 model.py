@@ -1,3 +1,4 @@
+import os
 import tensorflow as tf
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 from tensorflow.keras.applications import ResNet50
@@ -5,72 +6,84 @@ from tensorflow.keras.layers import Dense, GlobalAveragePooling2D
 from tensorflow.keras.models import Model
 from tensorflow.keras.optimizers import Adam
 
-# Define paths to your dataset
-train_data_dir = 'Dataset/train'
-test_data_dir = 'Dataset/test'
+# ✅ Fix 1: Use absolute paths
+BASE_DIR = r'C:\Users\A HAJIBU\OneDrive\Desktop\online fake logo detection'
+train_data_dir = os.path.join(BASE_DIR, 'Dataset', 'train')
+test_data_dir  = os.path.join(BASE_DIR, 'Dataset', 'test')
 
-# Define image dimensions and batch size
+# ✅ Check folders exist before training
+for path in [train_data_dir, test_data_dir]:
+    if not os.path.exists(path):
+        raise FileNotFoundError(f"❌ Folder not found: {path}")
+    else:
+        print(f"✅ Found: {path}")
+
+# Image settings
 img_width, img_height = 224, 224
 batch_size = 32
+epochs = 10
 
-# Define the number of epochs
-epochs = 10  # Adjust as needed
-
-# Data augmentation for training set
+# Data generators
 train_datagen = ImageDataGenerator(
-    rescale=1. / 255,
+    rescale=1./255,
     rotation_range=20,
     width_shift_range=0.2,
     height_shift_range=0.2,
     shear_range=0.2,
     zoom_range=0.2,
     horizontal_flip=True,
-    fill_mode='nearest')
+    fill_mode='nearest'
+)
+test_datagen = ImageDataGenerator(rescale=1./255)
 
-# Data augmentation for testing set (only rescaling)
-test_datagen = ImageDataGenerator(rescale=1. / 255)
-
-# Load data from directories
 train_generator = train_datagen.flow_from_directory(
     train_data_dir,
     target_size=(img_width, img_height),
     batch_size=batch_size,
-    class_mode='binary')
-
+    class_mode='binary'
+)
 test_generator = test_datagen.flow_from_directory(
     test_data_dir,
     target_size=(img_width, img_height),
     batch_size=batch_size,
-    class_mode='binary')
+    class_mode='binary'
+)
 
-# Define base model (pre-trained ResNet50)
+# ✅ Check that images were actually found
+print(f"Training samples: {train_generator.samples}")
+print(f"Testing samples : {test_generator.samples}")
+if train_generator.samples == 0:
+    raise ValueError("❌ No training images found! Check your Dataset/train folder structure.")
+
+# Build model
 base_model = ResNet50(weights='imagenet', include_top=False)
-
-# Add custom classification head
 x = base_model.output
 x = GlobalAveragePooling2D()(x)
 x = Dense(1024, activation='relu')(x)
 predictions = Dense(1, activation='sigmoid')(x)
-
-# Combine base model and custom head
 model = Model(inputs=base_model.input, outputs=predictions)
 
-# Freeze layers of the base model
+# Freeze base layers
 for layer in base_model.layers:
     layer.trainable = False
 
-# Compile the model
-model.compile(optimizer=Adam(),
-              loss='binary_crossentropy',
-              metrics=['accuracy'])
+# Compile
+model.compile(
+    optimizer=Adam(),
+    loss='binary_crossentropy',
+    metrics=['accuracy']
+)
 
-# Train the model
+# Train
 model.fit(
     train_generator,
-    steps_per_epoch=train_generator.samples // batch_size,
+    steps_per_epoch=max(1, train_generator.samples // batch_size),  # ✅ Fix 3
     epochs=epochs,
     validation_data=test_generator,
-    validation_steps=test_generator.samples // batch_size)
+    validation_steps=max(1, test_generator.samples // batch_size)   # ✅ Fix 3
+)
 
-# Save the model
-model.save('logo_classification_model.h5')
+# ✅ Fix 2: Save to exact location
+save_path = os.path.join(BASE_DIR, 'logo_classification_model.h5')
+model.save(save_path)
+print(f"✅ Model saved to: {save_path}")

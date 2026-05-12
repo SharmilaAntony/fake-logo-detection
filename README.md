@@ -7,23 +7,26 @@ It classifies whether a given logo is Real or Fake using image classification.
 
 🚀 Features
 
-Upload logo image for detection
-Classifies image as Real or Fake
-Uses trained CNN / ML model
-Fast and accurate prediction
+* Improve accuracy using larger dataset
+* Enable real-time webcam detection
+* Deploy as a web application
+* Add confidence score for predictions
 
 🧠 Technologies Used
 
-Python
-TensorFlow / Keras
-OpenCV
-NumPy
+* Python
+* TensorFlow / Keras
+* OpenCV
+* NumPy
 
 📂 Dataset
+
 Due to large file size, the dataset is not included in this repository.
+
 
 👉 Download dataset here:
 https://your-google-drive-link-here
+
 
 📸 Project Output (Camera Feed Results)
 
@@ -37,12 +40,21 @@ The system captures real-time camera input and classifies logos as Genuine or Fa
 
 📷 Fake Logo Detection Result
 
+
 ⚙️ How to Run Project
 
+* Clone the repo
 git clone https://github.com/SharmilaAntony/fake-logo-detection
 cd fake-logo-detection
+
+* Install dependencies
 pip install -r requirements.txt
-python app.py
+
+* Train the model (only once!)
+python train_model.py
+
+* Run the detection
+python open_cv.py
 
 📊 Model Output
 
@@ -51,10 +63,10 @@ Output: Real / Fake prediction
 
 📌 Future Improvements
 
-Improve accuracy using larger dataset
-Enable real-time webcam detection
-Deploy as a web application
-Add confidence score for predictions
+* Improve accuracy using larger dataset
+* Enable real-time webcam detection
+* Deploy as a web application
+* Add confidence score for predictions
 
 👩‍💻 Author
 

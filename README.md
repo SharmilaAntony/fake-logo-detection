@@ -59,6 +59,7 @@ python open_cv.py
 📊 Model Output
 
 Input: Logo image
+
 Output: Real / Fake prediction
 
 📌 Future Improvements
